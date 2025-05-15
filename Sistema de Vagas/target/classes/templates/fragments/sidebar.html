@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+
+<head>
+
+	<head>
+		<meta charset="UTF-8">
+	</head>
+
+<body>
+	<nav class="sidebar sidebar-open" th:fragment="nav-sidebar">
+		<ul class="nav nav-pills">
+	
+			<li class="nav-item" sec:authorize="!isAuthenticated()">
+				<a class="nav-link" th:href="@{/login}">
+					<i class="oi oi-account-login"></i>
+					<span th:text="#{sidebar.link.login}"></span>
+				</a>
+			</li>
+		
+		</ul>
+
+		<div sec:authorize="hasRole('ROLE_EMPRESA')">
+			<ul class="nav nav-pills">
+
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/empresas/vagas}">
+						<i class="oi oi-home"></i>
+						<span th:text="#{sidebar.link.home}"></span>
+					</a>
+				</li>
+
+				<li class="nav-item"><span class="nav-link active" th:text="#{sidebar.empresa.nome}"></span></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/empresas/cadastrarVaga}"> <i class="oi oi-plus"></i>
+						<span th:text="#{sidebar.empresa.cadastrarVaga}"></span>
+					</a></li>
+			</ul>
+		</div>
+
+		<div sec:authorize="hasRole('ROLE_PROFISSIONAL')">
+			<ul class="nav nav-pills">
+
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/inscricoes/}">
+						<i class="oi oi-home"></i>
+						<span th:text="#{sidebar.link.home}"></span>
+					</a>
+				</li>
+
+				<li class="nav-item"><span class="nav-link active" th:text="#{sidebar.inscricoes.nome}"></span></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/inscricoes/listar}"> <i
+					class="oi oi-spreadsheet"></i>
+						<span th:text="#{sidebar.inscricoes.listarInscricao}"></span>
+					</a></li>
+			</ul>
+		</div>
+
+		<div sec:authorize="hasRole('ROLE_ADMIN')">
+			<ul class="nav nav-pills">
+
+				<li class="nav-item">
+					<a class="nav-link" th:href="@{/}">
+						<i class="oi oi-home"></i>
+						<span th:text="#{sidebar.link.home}"></span>
+					</a>
+				</li>
+
+				<li class="nav-item"><span class="nav-link active" th:text="#{sidebar.titulo.empresa}"></span></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/empresas/cadastrar}"> <i class="oi oi-plus"></i>
+						<span th:text="#{sidebar.link.cadastrar}"></span>
+					</a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/empresas/listar}"> <i
+							class="oi oi-spreadsheet"></i>
+						<span th:text="#{sidebar.link.listar}"></span>
+					</a></li>
+			</ul>
+		</div>
+
+		<div sec:authorize="hasRole('ROLE_ADMIN')">
+			<ul class="nav nav-pills">
+				<li class="nav-item"><span class="nav-link active" th:text="#{sidebar.titulo.profissional}"></span></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/profissionais/cadastrar}"> <i
+							class="oi oi-plus"></i> <span th:text="#{sidebar.link.cadastrar}"></span>
+					</a></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/profissionais/listar}"> <i
+							class="oi oi-spreadsheet"></i>
+						<span th:text="#{sidebar.link.listar}"></span>
+					</a></li>
+			</ul>
+		</div>
+
+		<div sec:authorize="hasRole('ROLE_ADMIN')">
+			<ul class="nav nav-pills">
+				<li class="nav-item"><span class="nav-link active" th:text="#{sidebar.titulo.usuario}"></span></li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/usuarios/listar}"> <i
+							class="oi oi-spreadsheet"></i>
+						<span th:text="#{sidebar.link.listar}"></span>
+					</a></li>
+			</ul>
+		</div>
+	</nav>
+</body>
+
+</html>

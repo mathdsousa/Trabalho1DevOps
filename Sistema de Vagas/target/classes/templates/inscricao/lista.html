@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}">
+<head>
+<meta charset="UTF-8" />
+</head>
+<body>
+	<section class="layout-content" layout:fragment="corpo">
+
+		<nav class="navbar navbar-expand-md bg-light">
+			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item active">
+						<i class="oi oi-caret-right"></i>
+						<span th:text="#{inscricao.listar.label}"></span>
+					</li>
+				</ul>
+				<a class="btn btn-primary btn-md" th:href="@{/inscricoes/}" role="button"> 
+					<span class="oi oi-plus" title="Cadastro" aria-hidden="true"></span> 
+					<span th:text="#{inscricao.cadastrar.label}"></span>
+				</a>
+			</div>
+		</nav>
+		
+		<div class="container" id="listagem">
+
+			<div th:replace="~{fragments/alert}"></div>
+
+			<div class="table-responsive">
+				<table class="table table-striped table-hover table-sm">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th style="text-align: center" th:text="#{inscricao.data_inscricao.label}"></th>
+							<th style="text-align: center" th:text="#{vaga.descricao.label}"></th>
+							<th style="text-align: center" th:text="#{empresa.nome.label}"></th>
+							<th style="text-align: center" th:text="#{vaga.remuneracao.label}"></th>
+							<th style="text-align: center" th:text="#{empresa.cidade.label}"></th>
+							<th style="text-align: center">Currículo</th>
+							<th style="text-align: center" th:text="#{inscricao.status.label}"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="inscricao : ${inscricoes}">
+							<td style="text-align: center" th:text="${inscricao.id}"></td>
+							<td style="text-align: center" th:text="${inscricao.data_inscricao}"></td>
+							<td style="text-align: center" th:text="${inscricao.vaga.descricao}"></td>
+							<td style="text-align: center" th:text="${inscricao.vaga.empresa.name}"></td>
+							<td style="text-align: center" th:text="${inscricao.vaga.empresa.cidade}"></td>
+							<td style="text-align: center" th:text="${inscricao.vaga.remuneracao}"></td>
+							<td style="text-align: center">
+								<span th:if="${inscricao.qualificacao}">
+									<a th:href="@{/inscricoes/download/{id} (id=${inscricao.id})}" class="btn btn-info" >
+										Baixar 
+									</a>
+								</span>
+							</td>
+							<td style="text-align: center" th:text="${inscricao.resultado}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div th:replace="~{fragments/modal::modal}"></div>
+	</section>
+</body>
+</html>
