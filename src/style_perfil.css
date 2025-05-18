@@ -1,0 +1,124 @@
+/* styles.css */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #333;
+    color: #fff;
+}
+
+.container {
+    max-width: 450px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 25px;
+    overflow: hidden;
+    min-height: 600px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+    color: #fff;
+}
+
+header .back-button {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+header h1 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.profile {
+    text-align: center;
+    padding: 20px;
+}
+
+.profile .user-date {
+    font-size: 12.5px;
+    color: #273769;
+    margin-bottom: 10px;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.profile-pic img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile h2 {
+    margin: 5px 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #000000;
+}
+
+.options {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0 0 0;
+    text-align: left;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    border-top: 1px solid #0000003b;
+}
+
+.options li {
+    margin: 0px 0;
+    border-bottom: 1px solid #0000003b;
+    display: flex; /* Ativa o Flexbox */
+    align-items: center; /* Alinha o conteúdo no eixo vertical */
+    padding: 15px 0;
+}
+
+.options a {
+    color: #273769;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.options a.logout {
+    color: red;
+}
+
+.cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #2f1818; /* Cor de fundo do cabeçalho */
+    padding: 10px 20px; /* Espaçamento interno */
+    color: #fff; /* Cor do texto (se necessário) */
+    height: 45px; /* Altura do cabeçalho */
+    margin-bottom: 30px;
+}
+
+.cabecalho .back-button a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.cabecalho .back-button .seta {
+    width: 20px;
+    height: 20px;
+    object-fit: contain; /* Garante que a imagem da seta fique proporcional */
+}
+
+.cabecalho .img-gato {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cabecalho .img-gato .gato {
+    width: 30px; /* Tamanho da imagem do gato */
+    height: 30px;
+    object-fit: contain;
+}
