@@ -156,6 +156,7 @@ app.post('/cadastro', async (req, res) => {
     db.query(sql, [nome, usuario, email, telefone, dataNascimento, genero, senhaCriptografada], (erro, resultado) => {
       if (erro) {
         // Em caso de erro na consulta
+        console.log(erro);
         return res.status(500).json({ mensagem: 'Erro ao cadastrar usuário', erro });
       }
       // Sucesso no cadastro
