@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
 
 const verificarToken = require('./authMiddleware');
 
@@ -213,16 +214,36 @@ app.post('/logout', (req, res) => {
 ///////////////////////////////////// Post /////////////////////////////////////////////////////////////////////
 
 // Rota para publicar post
-app.get('/todosPosts', (req, res) =>{
-  try{
+app.get('/todosPosts', async (req, res) => {
+  try {
     const sql = 'SELECT * FROM post';
-    db.query(sql, (erro, resultado) => {
+    db.query(sql, async (erro, resultado) => {
       if (erro) {
         return res.status(500).json({ mensagem: 'Erro ao buscar os posts', erro });
       }
-      res.status(200).json({mensagem: 'Posts recuperados com sucesso!', posts: resultado});
+      
+      // Buscar imagens para cada post
+      const postsComImagem = await Promise.all(
+        resultado.map(async (post) => {
+          try {
+            const resp = await axios.get(`http://image-service:3007/download/${post.id}`);
+            const imagemData = resp.data;
+
+            const urlImagem = imagemData.nome_imagem
+              ? `http://localhost:3007/imagens/${imagemData.nome_imagem}`
+              : null;
+
+            return { ...post, urlImagem };
+          } catch (erroImg) {
+            console.error(`Erro ao buscar imagem do post ${post.id}:`, erroImg.message);
+            return { ...post, urlImagem: null };
+          }
+        })
+      );
+
+      res.status(200).json({ mensagem: 'Posts recuperados com sucesso!', posts: postsComImagem });
     });
-  }catch(error){
+  } catch (error) {
     res.status(500).json({ mensagem: 'Erro ao tentar buscar todos os posts', error });
   }
 });

@@ -45,31 +45,9 @@ function Geral() {
                     return;
                 }
 
-                const postsComImagem = await Promise.all(
-                    data.posts.map(async (post) => {
-                        try {
-                            const imagemResp = await fetch(`http://localhost:3007/download/${post.id}`);
-                            const imagemData = await imagemResp.json();
+                setPosts(data.posts);
 
-                            // Se a imagem existir, monta o caminho completo
-                            const urlImagem = imagemData.nome_imagem
-                                ? `http://localhost:3007/imagens/${imagemData.nome_imagem}`
-                                : null;
-
-                            return {
-                                ...post,
-                                urlImagem, // novo atributo
-                            };
-                        } catch (erroImg) {
-                            console.error(`Erro ao buscar imagem do post ${post.id}:`, erroImg);
-                            return { ...post, urlImagem: null };
-                        }
-                    })
-                );
-
-                setPosts(postsComImagem);
-
-                console.log("Posts recuperados com sucesso!", postsComImagem);
+                console.log("Posts recuperados com sucesso!", posts);
 
             } catch (error) {
                 console.error("Erro ao buscar os posts:", error);
