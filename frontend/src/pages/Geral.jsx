@@ -22,7 +22,7 @@ function Geral() {
         const fetchUserName = async () => {
             const token = localStorage.getItem('token');
 
-            const resposta = await fetch('http://localhost:3001/inicio', {
+            const resposta = await fetch('/inicio', {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${token}` },
             });
@@ -37,7 +37,7 @@ function Geral() {
     useEffect(() => {
         const buscarPosts = async () => {
             try {
-                const response = await fetch("http://localhost:3001/todosPosts");
+                const response = await fetch("/todosPosts");
                 const data = await response.json();
 
                 if (!response.ok) {

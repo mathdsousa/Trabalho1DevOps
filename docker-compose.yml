@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   db:
     image: mysql:9.3.0
@@ -31,7 +33,12 @@ services:
     build: ./frontend
     restart: always
     ports:
-      - "3000:3000"
+      - "3000:80"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true
     depends_on:
       backend:
         condition: service_started
@@ -53,21 +60,20 @@ services:
       - ./sendEmail/.env
     restart: always
 
-  nagios:
-      image: jasonrivers/nagios:latest
-      container_name: nagios
-      ports:
-        - "8080:80"
-      environment:
-        - NAGIOS_FQDN=nagios.local
-      volumes:
-        - ./nagios/etc:/opt/nagios/etc
-        - ./nagios/custom-plugins:/opt/Custom-Nagios-Plugins
-      depends_on:
-        - backend
-        - db
-        - send-email
+  # nagios:
+  #   image: jasonrivers/nagios:latest
+  #   container_name: nagios
+  #   ports:
+  #     - "8080:80"
+  #   environment:
+  #     - NAGIOS_FQDN=nagios.local
+  #   volumes:
+  #     - ./nagios/etc:/opt/nagios/etc
+  #     - ./nagios/custom-plugins:/opt/Custom-Nagios-Plugins
+  #   depends_on:
+  #     - backend
+  #     - db
+  #     - send-email
+
 volumes:
   db-data:
-
-  

@@ -20,7 +20,7 @@ function NovoPost(){
             return;
         }
 
-        const resposta = await fetch('http://localhost:3001/publicarPost', {
+        const resposta = await fetch('/publicarPost', {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ function NovoPost(){
             formData.append('imagem', imagem); // imagem: File
             formData.append('post_id', post_id); // ID do post
 
-            const respostaUpload = await fetch('http://localhost:3007/upload', {
+            const respostaUpload = await fetch('/upload', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

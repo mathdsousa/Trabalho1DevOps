@@ -13,7 +13,7 @@ function Inicio(){
     useEffect(() => {
         const buscarPosts = async () => {
             try {
-              const response = await fetch("http://localhost:3001/todosPosts");
+              const response = await fetch("/todosPosts");
               const data = await response.json();
               
               console.log(data.posts);

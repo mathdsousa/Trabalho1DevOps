@@ -25,7 +25,7 @@ function EditarPerfil() {
                     return;
                 }
     
-                const resposta = await fetch('http://localhost:3001/recuperarPerfil', {
+                const resposta = await fetch('/recuperarPerfil', {
                     method: 'GET',
                     headers: { Authorization: `Bearer ${token}` },
                 });

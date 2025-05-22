@@ -159,7 +159,7 @@ app.post('/cadastro', async (req, res) => {
         return res.status(500).json({ mensagem: 'Erro ao cadastrar usuário', erro });
       }
 
-      // ✅ Chamada ao microserviço send-email
+      // Chamada ao microserviço send-email
       try {
         await axios.post('http://send-email:4000/send-email', {
           to: email,
@@ -241,7 +241,7 @@ app.get('/todosPosts', async (req, res) => {
             const imagemData = resp.data;
 
             const urlImagem = imagemData.nome_imagem
-              ? `http://localhost:3007/imagens/${imagemData.nome_imagem}`
+              ? `/imagens/${imagemData.nome_imagem}`
               : null;
 
             return { ...post, urlImagem };
