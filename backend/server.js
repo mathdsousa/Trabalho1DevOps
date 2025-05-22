@@ -148,27 +148,38 @@ app.post('/cadastro', async (req, res) => {
   const { nome, usuario, email, telefone, dataNascimento, genero, senha } = req.body;
 
   try {
-    // Criptografando a senha
     const salt = await bcrypt.genSalt(10);
     const senhaCriptografada = await bcrypt.hash(senha, salt);
 
     const sql = 'INSERT INTO usuarios (nome, usuario, email, telefone, dataNascimento, genero, senha) VALUES (?, ?, ?, ?, ?, ?, ?)';
 
-    db.query(sql, [nome, usuario, email, telefone, dataNascimento, genero, senhaCriptografada], (erro, resultado) => {
+    db.query(sql, [nome, usuario, email, telefone, dataNascimento, genero, senhaCriptografada], async (erro, resultado) => {
       if (erro) {
-        // Em caso de erro na consulta
         console.log(erro);
         return res.status(500).json({ mensagem: 'Erro ao cadastrar usuário', erro });
       }
-      // Sucesso no cadastro
-      res.status(201).json({ mensagem: 'Usuário cadastrado com sucesso!' });
+
+      // ✅ Chamada ao microserviço send-email
+      try {
+        await axios.post('http://send-email:4000/send-email', {
+          to: email,
+          subject: 'Cadastro realizado com sucesso',
+          text: `Olá ${nome}, seu cadastro foi concluído com sucesso!`
+        });
+
+        return res.status(201).json({ mensagem: 'Usuário cadastrado e e-mail enviado com sucesso!' });
+
+      } catch (erroEmail) {
+        console.error('Erro ao enviar e-mail:', erroEmail.message);
+        return res.status(500).json({ mensagem: 'Usuário cadastrado, mas falha ao enviar e-mail', erroEmail });
+      }
     });
 
   } catch (error) {
-    // Em caso de erro na criptografia da senha
-    res.status(500).json({ mensagem: 'Erro ao criptografar a senha', error });
+    return res.status(500).json({ mensagem: 'Erro ao criptografar a senha', error });
   }
 });
+
 
 // Rota de Login
 app.post('/login', async (req, res) => {

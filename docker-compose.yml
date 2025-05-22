@@ -46,7 +46,27 @@ services:
         condition: service_started
       frontend:
         condition: service_started
+        
+  send-email: 
+    build: ./sendEmail
+    env_file:
+      - ./sendEmail/.env
+    restart: always
 
+  nagios:
+      image: jasonrivers/nagios:latest
+      container_name: nagios
+      ports:
+        - "8080:80"
+      environment:
+        - NAGIOS_FQDN=nagios.local
+      volumes:
+        - ./nagios/etc:/opt/nagios/etc
+        - ./nagios/custom-plugins:/opt/Custom-Nagios-Plugins
+      depends_on:
+        - backend
+        - db
+        - send-email
 volumes:
   db-data:
 
