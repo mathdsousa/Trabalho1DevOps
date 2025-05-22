@@ -10,8 +10,8 @@ services:
     volumes:
       - db-data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
-    healthcheck: # Para garantir que o db vai estar completamente up antes de subir os demais conteineres
-      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="root" --silent']
+    healthcheck: 
+      test: ['CMD-SHELL', 'mysqladmin ping -h 127.0.0.1 --password="1234" --silent']
       interval: 3s
       retries: 5
       start_period: 30s
@@ -34,6 +34,17 @@ services:
       - "3000:3000"
     depends_on:
       backend:
+        condition: service_started
+
+  image-service:
+    build: ./image-service
+    restart: always
+    ports:
+      - "3007:3007"
+    depends_on:
+      backend:
+        condition: service_started
+      frontend:
         condition: service_started
 
 volumes:

@@ -23,7 +23,7 @@ function Cadastro() {
       return;
     }
 
-    const resposta = await fetch('http://127.0.0.1:3001/cadastro', {
+    const resposta = await fetch('http://localhost:3001/cadastro', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

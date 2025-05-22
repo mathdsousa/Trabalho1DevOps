@@ -21,8 +21,16 @@ CREATE TABLE IF NOT EXISTS post (
   id INT AUTO_INCREMENT PRIMARY KEY,
   titulo VARCHAR(255) NOT NULL,
   texto TEXT NOT NULL,
-  caminho_imagem VARCHAR(255),
-  data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   usuario_id INT,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+-- Criar a tabela de comentários
+CREATE TABLE IF NOT EXISTS imagem (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(255) NOT NULL,
+  tipo VARCHAR(50) NOT NULL,
+  dados LONGBLOB NOT NULL,
+  post_id INT,
+  FOREIGN KEY (post_id) REFERENCES post(id) ON DELETE CASCADE
 );

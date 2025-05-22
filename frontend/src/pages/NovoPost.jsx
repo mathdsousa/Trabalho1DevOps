@@ -7,9 +7,8 @@ import voltar from "./img/back.png";
 function NovoPost(){
     const[titulo, setTitulo] = useState('');
     const[texto, setTexto] = useState('');
-    const[caminhoImagem, setCaminhoImagem] = useState('');
+    const[imagem, setImagem] = useState(null);
     const navigate = useNavigate(); // Crie a constante navigate
-    
     
     const handlePostarPost = async (e) => {
         e.preventDefault();
@@ -21,8 +20,7 @@ function NovoPost(){
             return;
         }
 
-    
-        const resposta = await fetch('http://127.0.0.1:3001/publicarPost', {
+        const resposta = await fetch('http://localhost:3001/publicarPost', {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
@@ -30,15 +28,33 @@ function NovoPost(){
           },
           body: JSON.stringify({
             titulo,
-            texto,
-            caminhoImagem,
+            texto
           }),
         });
 
         const dados = await resposta.json();
         console.log(dados);
+        const post_id = dados.post_id; // Obtém o ID do post retornado
+
+        console.log('ID do post:', post_id);
+        if (imagem) {
+            const formData = new FormData();
+            formData.append('imagem', imagem); // imagem: File
+            formData.append('post_id', post_id); // ID do post
+
+            const respostaUpload = await fetch('http://localhost:3007/upload', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: formData
+            });
+            const dadosImagem = await respostaUpload.json();
+            console.log(dadosImagem);
+        }
+
         alert(dados.mensagem);
-          
+  
         if (resposta.ok) {
           // Redireciona para a página /geral após cadastro bem-sucedido
           navigate('/geral');
@@ -70,8 +86,8 @@ function NovoPost(){
                             <form onSubmit={handlePostarPost} className="flex flex-col justify-center items-center gap-2 md:gap-4">
                                 <input className=" bg-transparent border-2 border-white rounded-full pl-5 w-72 md:w-[636px] h-10 md:h-14 text-[#879597] shadow-xl mb-2" type="text" placeholder="Título" value={titulo} onChange={(e) => setTitulo(e.target.value)}/>
                                 <div className="flex flex-col md:flex-row justify-center items-center md:flex md:justify-center md:items-center gap-2 md:gap-6">
-                                    <input className=" bg-transparent border-white rounded-full pl-5 w-72 md:w-[275px] h-10 md:h-14 text-[#879597] mb-2" type="text" placeholder="Selecione arquivos do seu pc" value={caminhoImagem} onChange={(e) => setCaminhoImagem(e.target.value)} />
-                                    <button className="bg-[#AA4F66] w-72 md:w-[150px] h-10 md:h-14 text-white text-base md:text-lg rounded-full font-bold mb-2 hover:bg-[#db728c]">UPLOAD</button>
+                                    <input type="file" accept="image/*" className='hidden' id='fileInput' onChange={(e) => setImagem(e.target.files[0])} />
+                                    <label htmlFor="fileInput" className=" cursor-pointer bg-transparent border-white rounded-full pl-5 w-72 md:w-[275px] h-10 md:h-14 text-[#879597] mb-2">{imagem ? imagem.name : 'Selecione uma imagem aqui'}</label>
                                     
                                 </div>
                                 <textarea className="bg-transparent border-2 border-white rounded-xl pl-5 w-72 md:w-[636px] h-32 text-[#879597] shadow-xl mb-2 resize-none overflow-auto" placeholder="Conteúdo do Post"value={texto} onChange={(e) => setTexto(e.target.value)}/>

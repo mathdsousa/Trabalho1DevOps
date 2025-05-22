@@ -232,16 +232,20 @@ app.post('/publicarPost', verificarToken, (req, res) => {
   const id_user = req.user.id; // Pegando o ID do usuário logado
 
   try {
-    const sql = 'INSERT INTO post (titulo, texto, caminho_imagem, usuario_id) VALUES (?, ?, ?, ?)';
-    db.query(sql, [titulo, texto, caminho_imagem, id_user], (erro, resultado) => {
+    const sql = 'INSERT INTO post (titulo, texto, usuario_id) VALUES (?, ?, ?)';
+    db.query(sql, [titulo, texto, id_user], (erro, resultado) => {
       if (erro) {
         return res.status(500).json({ mensagem: 'Erro ao publicar o post', erro });
       }
-      res.status(201).json({ mensagem: 'Post publicado com sucesso!' });
+      res.status(201).json({ 
+        mensagem: 'Post publicado com sucesso!',
+        post_id: resultado.insertId
+      });
     });
   } catch (error) {
     res.status(500).json({ mensagem: 'Erro ao tentar publicar o post', error });
   }
+
 });
 
 // Rota para editar post
