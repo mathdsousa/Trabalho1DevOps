@@ -151,7 +151,7 @@ function Geral() {
                                     <div className="flex-row flex mb-4">
                                         <div className="w-8"></div>
                                         <h1 className="text-white flex-auto w-8 text-center text-2xl font-bold flex-1">{post.titulo}</h1>
-                                        <img className="block md:hidden w-6 h-6 mr-2" src={post.urlImagem || visualizar} alt="Ver mais" />
+                                        <img className="block md:hidden w-6 h-6 mr-2" src={visualizar} alt="Ver mais" />
                                         <div className="w-8 hidden hidden md:block"></div>
                                     </div>
                                     <img src={post.urlImagem||cogu} className="justify-self-center md:w-4/5 md:w-3/4" alt="Imagem de cogumelo" />
