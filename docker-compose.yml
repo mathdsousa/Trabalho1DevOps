@@ -7,8 +7,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 1234
       MYSQL_DATABASE: usuarios
-    ports:
-      - "3307:3306"
     volumes:
       - db-data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
@@ -23,8 +21,6 @@ services:
     restart: always
     env_file:
       - ./backend/.env
-    ports:
-      - "3001:3001"
     depends_on:
       db:
         condition: service_healthy
@@ -46,8 +42,6 @@ services:
   image-service:
     build: ./image-service
     restart: always
-    ports:
-      - "3007:3007"
     depends_on:
       backend:
         condition: service_started
@@ -63,8 +57,6 @@ services:
   # nagios:
   #   image: jasonrivers/nagios:latest
   #   container_name: nagios
-  #   ports:
-  #     - "8080:80"
   #   environment:
   #     - NAGIOS_FQDN=nagios.local
   #   volumes:
