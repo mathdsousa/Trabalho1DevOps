@@ -45,7 +45,7 @@ app.post('/upload', upload.single('imagem'), (req, res) => {
      const imagem = results[0];
      const caminho = path.join(__dirname, 'imagens', imagem.nome);
 
-     fs.writeFileSync(caminho, imagem.dados);
+     if (!fs.existsSync(caminho)) {fs.writeFileSync(caminho, imagem.dados)};
      res.json({ mensagem: `Imagem salva na pasta imagens como ${imagem.nome}`, nome_imagem: imagem.nome });
    });
  });

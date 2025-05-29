@@ -147,6 +147,8 @@ app.put('/editarPerfil', verificarToken, async (req, res) => {
 app.post('/cadastro', async (req, res) => {
   const { nome, usuario, email, telefone, dataNascimento, genero, senha } = req.body;
 
+  console.log('Dados recebidos para cadastro:', req.body);
+
   try {
     const salt = await bcrypt.genSalt(10);
     const senhaCriptografada = await bcrypt.hash(senha, salt);
